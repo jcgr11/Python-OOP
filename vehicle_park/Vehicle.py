@@ -23,9 +23,15 @@ class Vehicle:
     @property
     def year(self):
         return self._year
-    
+
     def __str__(self):
-        return  'ID: ' + self._id + \
-                '\nMake: ' + self._make + \
-                '\nModel: ' + self._model + \
-                '\nYear: ' + self._year
+        return (
+            "ID: "
+            + self._id
+            + "\nMake: "
+            + self._make
+            + "\nModel: "
+            + self._model
+            + "\nYear: "
+            + self._year
+        )
