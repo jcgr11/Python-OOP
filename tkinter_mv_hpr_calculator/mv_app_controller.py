@@ -4,6 +4,7 @@ from mv_app_view import MVAppView
 from stock_data import TickerData
 from mv_hpr_app import mv_hpr_app
 
+
 class MarketValueAppController(mv_hpr_app):
     def __init__(self, root):
         super().__init__(root)

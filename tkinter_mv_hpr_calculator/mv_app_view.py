@@ -1,6 +1,7 @@
 import tkinter as tk
 from mv_hpr_app import mv_hpr_app
 
+
 class MVAppView(mv_hpr_app):
     def __init__(self, root, on_calculate):
         super().__init__(root)
