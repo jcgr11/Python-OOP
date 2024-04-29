@@ -1,4 +1,5 @@
 from tkinter import messagebox
+import tkinter as tk
 from mv_app_view import MVAppView
 from stock_data import TickerData
 
@@ -9,23 +10,35 @@ class MarketValueAppController:
 
     def calculate(self):
         ticker = self.view.ticker_entry.get().upper()
-        date = self.view.date_entry.get()
+        start_date = self.view.start_date_entry.get()
+        end_date = self.view.end_date_entry.get()
         shares_str = self.view.shares_entry.get()
 
         try:
             shares = int(shares_str)
-            finance_data = TickerData(ticker, date)
-            market_value = finance_data.calculate_market_value(shares)
-            if market_value is not None:
-                messagebox.showinfo(
-                    "Market Value", f"The Market Value of your stock purchase is ${market_value:.2f}"
-                )
-            else:
+            finance_data = TickerData(ticker, start_date, end_date)
+            bmv = finance_data.calculate_bmv(shares)
+            emv = finance_data.calculate_emv(shares)
+            holding_period_return = finance_data.calculate_holding_period_return()
+
+            if bmv is None or emv is None:
                 messagebox.showerror(
-                    "Data Error", "Could not retrieve stock price for the given date."
+                    "Data Error",
+                    "Market value could not be calculated for one or both dates. Check your dates and try again.",
                 )
+                return
+
+            if holding_period_return is None:
+                messagebox.showerror(
+                    "Data Error",
+                    "Holding period return could not be calculated. Check your dates and try again.",
+                )
+                return
+
+            result = f"Beginning Market Value: ${round(bmv, 2)}\nEnding Market Value: ${round(emv, 2)}\nHolding Period Return: {round(holding_period_return * 100, 2)}%"
+            self.view.results_text.delete("1.0", tk.END)
+            self.view.results_text.insert(tk.END, result)
         except ValueError:
             messagebox.showerror(
-                "Invalid Input",
-                "Please ensure all inputs are correct.",
+                "Invalid Input", "Please ensure all inputs are correct and numeric."
             )
