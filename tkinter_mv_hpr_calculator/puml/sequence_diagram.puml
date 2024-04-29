@@ -1,0 +1,27 @@
+@startuml
+actor User
+participant "MVAppView" as View
+participant "MarketValueAppController" as Controller
+participant "TickerData" as Model
+
+User -> View : enter data (Ticker, Dates, Shares)
+activate View
+View -> Controller : on_calculate
+activate Controller
+Controller -> Model : __init__
+activate Model
+Model -> Model : load_data
+Model --> Controller : data loaded
+Controller -> Model : calculate_bmv(shares)
+Model --> Controller : bmv
+Controller -> Model : calculate_emv(shares)
+Model --> Controller : emv
+Controller -> Model : calculate_holding_period_return()
+Model --> Controller : holding period return
+deactivate Model
+Controller -> View : display result
+activate View
+View -> User : show result
+deactivate View
+deactivate Controller
+@enduml

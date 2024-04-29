@@ -1,9 +1,9 @@
 import tkinter as tk
+from mv_hpr_app import mv_hpr_app
 
-
-class MVAppView:
+class MVAppView(mv_hpr_app):
     def __init__(self, root, on_calculate):
-        self.root = root
+        super().__init__(root)
         self.setup_ui(on_calculate)
 
     def setup_ui(self, on_calculate):

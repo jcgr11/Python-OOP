@@ -2,10 +2,11 @@ from tkinter import messagebox
 import tkinter as tk
 from mv_app_view import MVAppView
 from stock_data import TickerData
+from mv_hpr_app import mv_hpr_app
 
-
-class MarketValueAppController:
+class MarketValueAppController(mv_hpr_app):
     def __init__(self, root):
+        super().__init__(root)
         self.view = MVAppView(root, self.calculate)
 
     def calculate(self):

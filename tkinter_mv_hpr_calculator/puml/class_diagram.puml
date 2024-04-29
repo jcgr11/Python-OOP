@@ -1,0 +1,41 @@
+@startuml
+class mv_hpr_app {
+  -root: Tk
+  +__init__(root: Tk)
+}
+
+class TickerData {
+  -ticker: string
+  -start_date: datetime
+  -end_date: datetime
+  -data: DataFrame
+  +__init__(ticker: string, start_date: datetime, end_date: datetime)
+  +adjust_date_for_weekend(date: datetime): datetime
+  +load_data(): DataFrame
+  +calculate_bmv(shares: int): float
+  +calculate_emv(shares: int): float
+  +calculate_holding_period_return(): float
+}
+
+class MVAppView {
+  -ticker_entry: Entry
+  -start_date_entry: Entry
+  -end_date_entry: Entry
+  -shares_entry: Entry
+  -calc_button: Button
+  -results_text: Text
+  +__init__(root: Tk, on_calculate: callable)
+  +setup_ui(on_calculate: callable)
+}
+
+class MarketValueAppController {
+  -view: MVAppView
+  +__init__(root: Tk)
+  +calculate()
+}
+
+mv_hpr_app <|-- MVAppView
+mv_hpr_app <|-- MarketValueAppController
+MVAppView --> MarketValueAppController
+MarketValueAppController --> TickerData
+@enduml

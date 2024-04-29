@@ -11,7 +11,6 @@ class TickerData:
         self.data = self.load_data()
 
     def adjust_date_for_weekend(self, date):
-        # Adjust the date to the nearest business day if it's a weekend
         if not date.isoweekday() in range(1, 6):
             return date - offsets.BDay(1)
         return date

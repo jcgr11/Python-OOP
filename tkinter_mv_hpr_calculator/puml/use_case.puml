@@ -1,0 +1,27 @@
+@startuml
+left to right direction
+actor Investor
+actor "Financial Advisor" as Advisor
+actor Analyst
+
+rectangle "Market Value Tool" {
+  usecase (EstimateTax) as "Estimate Capital Gains Tax"
+  usecase (IncludeSecurity) as "Support Security Inclusion"
+  usecase (OffloadSecurity) as "Support Security Offloading"
+  usecase (CalculateReturn) as "Calculate Security Sale Return"
+  usecase (ValidateReturn) as "Validate Return Calculations"
+
+  (IncludeSecurity) <.. (EstimateTax) : <<extend>>
+  (ValidateReturn) <.. (CalculateReturn) : <<include>>
+}
+
+Investor --> (EstimateTax)
+Investor --> (IncludeSecurity)
+Investor --> (OffloadSecurity)
+Advisor --> (EstimateTax)
+Advisor --> (IncludeSecurity)
+Advisor --> (OffloadSecurity)
+Analyst --> (CalculateReturn)
+Analyst --> (ValidateReturn)
+
+@enduml
