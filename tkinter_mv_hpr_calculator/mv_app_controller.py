@@ -18,28 +18,36 @@ class MarketValueAppController(mv_hpr_app):
 
         try:
             shares = int(shares_str)
-            finance_data = TickerData(ticker, start_date, end_date)
+            finance_data = TickerData(
+                ticker, 
+                start_date, 
+                end_date
+                )
+            
             bmv = finance_data.calculate_bmv(shares)
             emv = finance_data.calculate_emv(shares)
+
             holding_period_return = finance_data.calculate_holding_period_return()
 
             if bmv is None or emv is None:
                 messagebox.showerror(
                     "Data Error",
-                    "Market value could not be calculated for one or both dates. Check your dates and try again.",
+                    "The Market value could not be calculated for your dates, please check your dates and try again.",
                 )
                 return
 
             if holding_period_return is None:
                 messagebox.showerror(
                     "Data Error",
-                    "Holding period return could not be calculated. Check your dates and try again.",
+                    "The Holding period return could not be calculated, please check your dates and try again.",
                 )
                 return
 
             result = f"Beginning Market Value: ${round(bmv, 2)}\nEnding Market Value: ${round(emv, 2)}\nHolding Period Return: {round(holding_period_return * 100, 2)}%"
+            
             self.view.results_text.delete("1.0", tk.END)
             self.view.results_text.insert(tk.END, result)
+            
         except ValueError:
             messagebox.showerror(
                 "Invalid Input", "Please ensure all inputs are correct and numeric."

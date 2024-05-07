@@ -6,20 +6,27 @@ import pandas.tseries.offsets as offsets
 class TickerData:
     def __init__(self, ticker, start_date, end_date):
         self.ticker = ticker.upper()
+
         self.start_date = pd.to_datetime(start_date)
         self.end_date = pd.to_datetime(end_date)
+
         self.data = self.load_data()
 
-    def adjust_date_for_weekend(self, date):
+    def adjust_for_non_trading_days(self, date):
         if not date.isoweekday() in range(1, 6):
             return date - offsets.BDay(1)
         return date
 
     def load_data(self):
-        start_date = self.adjust_date_for_weekend(self.start_date)
-        end_date = self.adjust_date_for_weekend(self.end_date)
+        start_date = self.adjust_for_non_trading_days(self.start_date)
+        end_date = self.adjust_for_non_trading_days(self.end_date)
+
         data = yf.download(
-            self.ticker, start_date, end_date, progress=False, auto_adjust=True
+            self.ticker, 
+            start_date, 
+            end_date, 
+            progress=False, 
+            auto_adjust=True
         )
         return data
 
