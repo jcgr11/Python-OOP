@@ -22,11 +22,7 @@ class TickerData:
         end_date = self.adjust_for_non_trading_days(self.end_date)
 
         data = yf.download(
-            self.ticker, 
-            start_date, 
-            end_date, 
-            progress=False, 
-            auto_adjust=True
+            self.ticker, start_date, end_date, progress=False, auto_adjust=True
         )
         return data
 
